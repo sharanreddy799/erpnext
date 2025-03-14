@@ -6,6 +6,7 @@ import requests
 from frappe import _
 from frappe.model.document import Document
 from frappe.utils import nowdate
+from security import safe_requests
 
 
 class CurrencyExchangeSettings(Document):
@@ -80,7 +81,7 @@ class CurrencyExchangeSettings(Document):
 		api_url = self.api_endpoint.format(transaction_date=nowdate(), to_currency="INR", from_currency="USD")
 
 		try:
-			response = requests.get(api_url, params=params)
+			response = safe_requests.get(api_url, params=params)
 		except requests.exceptions.RequestException as e:
 			frappe.throw("Error: " + str(e))
 

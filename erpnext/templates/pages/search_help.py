@@ -1,10 +1,10 @@
 import frappe
-import requests
 from frappe import _
 from frappe.core.utils import html2text
 from frappe.utils import sanitize_html
 from frappe.utils.global_search import search
 from jinja2 import utils
+from security import safe_requests
 
 
 def get_context(context):
@@ -47,7 +47,7 @@ def get_help_results_sections(text):
 
 
 def get_response(api, text):
-	response = requests.get(api.base_url + "/" + api.query_route, data={api.search_term_param_name: text})
+	response = safe_requests.get(api.base_url + "/" + api.query_route, data={api.search_term_param_name: text})
 
 	response.raise_for_status()
 	return response.json()

@@ -1,9 +1,9 @@
 import json
 
 import frappe
-import requests
 from frappe import _
 from lxml import etree
+from security import safe_requests
 
 URL_PREFIXES = ("http://", "https://")
 
@@ -18,7 +18,7 @@ def import_genericode():
 	if (file_url := frappe.local.uploaded_file_url) and file_url.startswith(URL_PREFIXES):
 		try:
 			# If it's a URL, fetch the content and make it a local file (for durable audit)
-			response = requests.get(frappe.local.uploaded_file_url)
+			response = safe_requests.get(frappe.local.uploaded_file_url)
 			response.raise_for_status()
 			frappe.local.uploaded_file = content = response.content
 			frappe.local.uploaded_filename = frappe.local.uploaded_file_url.split("/")[-1]

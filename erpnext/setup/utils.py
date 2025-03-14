@@ -8,6 +8,7 @@ from frappe.utils.data import getdate, now_datetime
 from frappe.utils.nestedset import get_root_of
 
 from erpnext import get_default_company
+from security import safe_requests
 
 PEGGED_CURRENCIES = {
 	"USD": {"AED": 3.6725},  # AED is pegged to USD at a rate of 3.6725 since 1997
@@ -104,7 +105,6 @@ def get_exchange_rate(from_currency, to_currency, transaction_date=None, args=No
 		value = cache.get(key)
 
 		if not value:
-			import requests
 
 			settings = frappe.get_cached_doc("Currency Exchange Settings")
 			req_params = {
@@ -115,7 +115,7 @@ def get_exchange_rate(from_currency, to_currency, transaction_date=None, args=No
 			params = {}
 			for row in settings.req_params:
 				params[row.key] = format_ces_api(row.value, req_params)
-			response = requests.get(format_ces_api(settings.api_endpoint, req_params), params=params)
+			response = safe_requests.get(format_ces_api(settings.api_endpoint, req_params), params=params)
 			# expire in 6 hours
 			response.raise_for_status()
 			value = response.json()
