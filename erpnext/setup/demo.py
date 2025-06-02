@@ -3,7 +3,6 @@
 
 import json
 import os
-from random import randint
 
 import frappe
 from frappe import _
@@ -14,6 +13,7 @@ from erpnext.accounts.utils import get_fiscal_year
 from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_invoice
 from erpnext.selling.doctype.sales_order.sales_order import make_sales_invoice
 from erpnext.setup.setup_wizard.operations.install_fixtures import create_bank_account
+import secrets
 
 
 def setup_demo_data():
@@ -174,7 +174,7 @@ def convert_order_to_invoices():
 
 
 def get_random_date(start_date, start_range, end_range):
-	return add_days(start_date, randint(start_range, end_range))
+	return add_days(start_date, secrets.SystemRandom().randint(start_range, end_range))
 
 
 def create_transaction_deletion_record(company):
@@ -227,4 +227,4 @@ def read_data_file_using_hooks(doctype):
 
 def get_warehouse(company):
 	warehouses = frappe.db.get_all("Warehouse", {"company": company, "is_group": 0})
-	return warehouses[randint(0, 3)].name
+	return warehouses[secrets.SystemRandom().randint(0, 3)].name

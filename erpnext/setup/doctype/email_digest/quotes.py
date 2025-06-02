@@ -1,4 +1,4 @@
-import random
+import secrets
 
 
 def get_random_quote():
@@ -62,4 +62,4 @@ def get_random_quote():
 		),
 	]
 
-	return random.choice(quotes)
+	return secrets.choice(quotes)

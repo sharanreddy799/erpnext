@@ -1,6 +1,5 @@
 # Copyright (c) 2023, Frappe Technologies Pvt. Ltd. and Contributors
 # See license.txt
-from random import randint
 
 from frappe.tests import IntegrationTestCase
 from frappe.utils.data import today
@@ -12,6 +11,7 @@ from erpnext.stock.doctype.stock_reservation_entry.test_stock_reservation_entry 
 	create_material_receipt,
 )
 from erpnext.stock.report.reserved_stock.reserved_stock import get_data as reserved_stock_report
+import secrets
 
 
 class TestReservedStock(IntegrationTestCase):
@@ -39,7 +39,7 @@ class TestReservedStock(IntegrationTestCase):
 
 		for item_code, properties in items_details.items():
 			so = make_sales_order(
-				item_code=item_code, qty=randint(11, 100), warehouse=self.warehouse, uom=properties.stock_uom
+				item_code=item_code, qty=secrets.SystemRandom().randint(11, 100), warehouse=self.warehouse, uom=properties.stock_uom
 			)
 			so.create_stock_reservation_entries()
 
