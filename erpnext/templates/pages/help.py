@@ -1,7 +1,7 @@
 import json
 
 import frappe
-import requests
+from security import safe_requests
 
 
 def get_context(context):
@@ -27,7 +27,7 @@ def get_context(context):
 
 
 def get_forum_posts(s):
-	response = requests.get(s.forum_url + "/" + s.get_latest_query)
+	response = safe_requests.get(s.forum_url + "/" + s.get_latest_query)
 	response.raise_for_status()
 	response_json = response.json()
 
