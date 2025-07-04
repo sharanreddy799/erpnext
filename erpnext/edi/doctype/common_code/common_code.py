@@ -86,7 +86,7 @@ def simple_hash(input_string, length=6):
 def import_genericode(code_list: str, file_name: str, column_map: dict, filters: dict | None = None):
 	"""Import genericode file and create Common Code entries"""
 	file_path = frappe.utils.file_manager.get_file_path(file_name)
-	parser = etree.XMLParser(remove_blank_text=True)
+	parser = etree.XMLParser(remove_blank_text=True, resolve_entities=False)
 	tree = etree.parse(file_path, parser=parser)
 	root = tree.getroot()
 

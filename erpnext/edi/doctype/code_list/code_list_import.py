@@ -32,7 +32,7 @@ def import_genericode():
 			content = f.read()
 
 	# Parse the xml content
-	parser = etree.XMLParser(remove_blank_text=True)
+	parser = etree.XMLParser(remove_blank_text=True, resolve_entities=False)
 	try:
 		root = etree.fromstring(content, parser=parser)
 	except Exception as e:
